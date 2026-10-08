@@ -1,69 +1,48 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class player : MonoBehaviour
+public class Player : MonoBehaviour
 {
-
-    [SerializeField] public float steerSpeed = 15f;
-    [SerializeField] float moveSpeed = 15f;
     [SerializeField] private CameraScript MainCamera;
+    [SerializeField] public float MoveSpeed = 15f;
+    [SerializeField] public float SteerSpeed = 250f;
 
-
-    public float steerInput;
-    public float moveInput;
+    public float SteerInput;
+    public float MoveInput;
 
     private Rigidbody2D rb;
-
-
-
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
     }
-
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
-        moveInput = 0f;
+        MoveInput = 0f;
         if (Keyboard.current.wKey.isPressed)
         {
-            moveInput = 1f;
-        } else if(Keyboard.current.sKey.isPressed)
+            MoveInput = 1f;
+        }
+        else if (Keyboard.current.sKey.isPressed)
         {
-            moveInput = -1f;
+            MoveInput = -1f;
         }
 
-        steerInput = 0f;
+        SteerInput = 0f;
         if (Keyboard.current.aKey.isPressed)
         {
-            steerInput = 1f;
-        } else if (Keyboard.current.dKey.isPressed)
+            SteerInput = 1f;
+        }
+        else if (Keyboard.current.dKey.isPressed)
         {
-            steerInput = -1f;
+            SteerInput = -1f;
         }
     }
 
     private void FixedUpdate()
     {
-        float steerAmount = steerSpeed * steerInput;
 
-        Vector3 moveDircetion = transform.up;
-        float accelerationForce = moveSpeed * moveInput;
-        rb.AddForce(moveDircetion * accelerationForce);
-
-        rb.MoveRotation(rb.rotation + steerAmount);
 
         MainCamera.UpdatePosition(rb.transform.position);
-    }
-
-    public void boostSpeed(float BoostAmount)
-    {
-        moveSpeed += BoostAmount;
     }
 }
